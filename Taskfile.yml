@@ -1,0 +1,40 @@
+# https://taskfile.dev
+
+version: '3'
+
+env:
+  APPNAME: DevHands.Playground.Application
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS_1: http://localhost:5001
+  ASPNETCORE_HTTP_PORT_1: 5001
+  ASPNETCORE_URLS_2: http://localhost:5002
+  ASPNETCORE_HTTP_PORT_2: 5002
+
+tasks:
+  build:
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - dotnet publish devhands.playground.sln
+
+  default:
+    deps: [app1, app2]
+
+  app1:
+    dir: '{{.USER_WORKING_DIR}}/src/{{.APPNAME}}/bin/Release/net9.0/publish'
+    env:
+      ASPNETCORE_ENVIRONMENT: "{{.ASPNETCORE_ENVIRONMENT}}"
+      ASPNETCORE_URLS: "{{.ASPNETCORE_URLS_1}}"
+      ASPNETCORE_HTTP_PORT: "{{.ASPNETCORE_HTTP_PORT_1}}"
+    cmds:
+      - ./$APPNAME
+    silent: true
+
+  app2:
+    dir: '{{.USER_WORKING_DIR}}/src/{{.APPNAME}}/bin/Release/net9.0/publish'
+    env:
+      ASPNETCORE_ENVIRONMENT: "{{.ASPNETCORE_ENVIRONMENT}}"
+      ASPNETCORE_URLS: "{{.ASPNETCORE_URLS_2}}"
+      ASPNETCORE_HTTP_PORT: "{{.ASPNETCORE_HTTP_PORT_2}}"
+    cmds:
+      - ./$APPNAME
+    silent: true

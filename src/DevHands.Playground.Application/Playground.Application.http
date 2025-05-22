@@ -1,0 +1,7 @@
+### CPU
+GET http://localhost:8080/api/simulate/cpu/2000
+Accept: application/json
+
+### IO
+GET http://localhost:8080/simulate/io/2000
+Accept: application/json
