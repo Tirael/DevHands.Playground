@@ -21,6 +21,7 @@ internal static class ServiceCollectionExtensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation()
                     .SetResourceBuilder(openTelemetryResourceBuilder)
                     .AddMeter(
                         "Microsoft.AspNetCore.Hosting",
