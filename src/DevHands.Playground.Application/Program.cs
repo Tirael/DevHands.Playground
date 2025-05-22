@@ -10,6 +10,7 @@ app
 
 app.MapGet("/simulate/cpu/{ms:long}", HandleSimulateCpu);
 app.MapGet("/simulate/io/{ms:long}", HandleSimulateIo);
+app.MapGet("/hello", HandleHello);
 
 await app.RunAsync();
 
@@ -102,6 +103,27 @@ async Task HandleSimulateIo(HttpContext context, long ms)
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         await context.Response.WriteAsync("Internal server error");
     }
+}
+
+Task HandleHello(HttpContext context)
+{
+    var helloResult =
+        $"""
+             <!doctype html>
+             <html>
+               <head>
+                 <title>DevHands.Playground</title>
+               </head>
+               <body>
+                 <h1>Hello DevHands</h1>
+                 <p>Current server time {TimeProvider.System.GetUtcNow():O}</p>
+               </body>
+             </html>
+         """;
+
+    context.Response.ContentType = "text/html; charset=utf-8";
+    context.Response.StatusCode = StatusCodes.Status200OK;
+    return context.Response.WriteAsync(helloResult);
 }
 
 [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
